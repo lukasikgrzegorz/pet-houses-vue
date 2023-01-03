@@ -10,9 +10,16 @@ export default {
     return {
       houseType:"ground",
       housePet:"",
-      housePrice:0,
+      housePrice:null,
       filterPet:"",
       filterType:"",
+      sortIsActive:false,
+      sortType:{
+        id:false,
+        type:false,
+        pet: false,
+        price: false,
+      },
       items: [
         { id: id++, type:"ground", pet: "cat", price: 20 },
         { id: id++, type:"ground", pet: "dog", price: 40 },
@@ -33,6 +40,13 @@ export default {
         this.housePrice=0;
         this.filterPet="";
         this.filterType="";
+        this.sortIsActive=false;
+        this.sortType={
+          id:false,
+          type:false,
+          pet: false,
+          price: false,
+        }
         this.filterItems=[...this.items];
       }else{
         alert("Fill all fields!")
@@ -48,6 +62,53 @@ export default {
         hitsByType=[...hitsByPet];  
       }
       this.filterItems = [...hitsByType];
+    },
+    sortFoo(e){
+      const sortType = e.target.id
+      switch (sortType) {
+      case 'id':
+        this.sortType.id=!this.sortType.id;
+        if(this.sortType.id){
+          this.filterItems.sort((a, b) => b.id - a.id);
+        }else{
+          this.filterItems.sort((a, b) => a.id - b.id);  
+        }
+        break;
+      case 'price':
+        this.sortType.price=!this.sortType.price;
+        if(this.sortType.price){
+          this.filterItems.sort((a, b) => b.price - a.price);
+        }else{
+          this.filterItems.sort((a, b) => a.price - b.price);  
+        }
+        break;
+      case 'type':
+        this.sortType.type=!this.sortType.type;
+        if(this.sortType.type){
+          this.filterItems.sort((a, b) => b.type.localeCompare(a.type));
+        }else{
+          this.filterItems.sort((a, b) => a.type.localeCompare(b.type));  
+        }
+        break;
+      case 'pet':
+        this.sortType.pet=!this.sortType.pet;
+        if(this.sortType.pet){
+          this.filterItems.sort((a, b) => b.pet.localeCompare(a.pet));
+        }else{
+          this.filterItems.sort((a, b) => a.pet.localeCompare(b.pet));  
+        }
+        break;
+      }  
+    },
+    resetSort(){
+      this.sortIsActive=false;
+      this.sortType={
+        id:false,
+        type:false,
+        pet: false,
+        price: false,
+      },
+      this.filterItems=[...this.items]
     }
   }
 };
@@ -78,16 +139,17 @@ export default {
       </select>
       <button>Search</button> 
     </form>
+    <button @click="resetSort">Reset Filters</button>
     <div>
       
     </div>
 
     <table>
       <tr>
-        <th>Id</th>
-        <th>Type</th>
-        <th>Pet</th>
-        <th>Price</th>
+        <th @click="sortFoo" id="id">Id</th>
+        <th @click="sortFoo" id="type">Type</th>
+        <th @click="sortFoo" id="pet">Pet</th>
+        <th @click="sortFoo" id="price">Price</th>
       </tr>
       <tr v-for="item in filterItems" :key="item.id">
         <td>{{item.id}}</td>
@@ -130,6 +192,7 @@ td{
 th{
   background: brown;
   color: white;
+  cursor: pointer;
 }
 
 .filters{
