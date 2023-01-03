@@ -29,8 +29,11 @@ export default {
       if(this.houseType&&this.housePrice>0){
         this.items.push({ id: id++, type: this.houseType, pet: this.housePet, price: this.housePrice });
         this.houseType="ground";
-        this.housePet=null;
+        this.housePet="";
         this.housePrice=0;
+        this.filterPet="";
+        this.filterType="";
+        this.filterItems=[...this.items];
       }else{
         alert("Fill all fields!")
       }
