@@ -155,7 +155,7 @@ export default {
       </select>
       <button>Search</button> 
     </form>
-    <table v-if="this.items">
+    <table v-if="this.filterItems.length > 0">
       <tr>
         <th @click="sortFoo" id="id">Id</th>
         <th @click="sortFoo" id="pet">Pet</th>
@@ -169,6 +169,7 @@ export default {
         <td>{{item.price}}</td>
       </tr>
     </table>
+    <div v-if="this.filterItems.length === 0" class="info">There are no items. Add a new one or change your query</div>
   
   </div>
 </template>
@@ -205,7 +206,8 @@ body{
 }
 
 .modal{
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   background-color: #ffffff;
   position: relative;
   padding: 30px 20px;
@@ -267,7 +269,7 @@ tr{
 }
 
 td{
-  width: 100px;
+  width: 125px;
   text-align: center;
 }
 
@@ -287,6 +289,9 @@ th{
   gap: 10px;
   justify-content: center;
   align-items: center;
+  width:100%;
+  max-width: 500px;
+  flex-wrap: wrap;
 }
 
 .filters .input,
@@ -318,6 +323,14 @@ button{
 
 button:hover{
   transform: scale(1.03);
+}
+
+.info{
+  max-width: 300px;
+  font-weight: 700;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
 }
 
 </style>
