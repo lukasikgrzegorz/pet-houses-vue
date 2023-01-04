@@ -8,6 +8,7 @@ export default {
   components: {Logo},
   data(){
     return {
+      showModal:false,
       houseType:"ground",
       housePet:"",
       housePrice:null,
@@ -32,6 +33,9 @@ export default {
     this.filterItems=[...this.items]
   },
   methods: {
+    toogleModal(){
+      this.showModal=!this.showModal;
+    },
     addNewItem() {
       if(this.houseType&&this.housePrice>0){
         this.items.push({ id: id++, type: this.houseType, pet: this.housePet, price: this.housePrice });
@@ -116,26 +120,32 @@ export default {
 
 <template>
   <div id="app">
-    <Logo/>
-    <div> 
-      <form @submit.prevent="addNewItem">
-        <div>
-          <input type="radio" id="ground" name="house_type" value="ground" v-model="houseType">
-          <label for="ground">Ground</label>
-          <input type="radio" id="above" name="house_type" value="above" v-model="houseType">
-          <label for="above">Above</label>
-        </div>
-        <input type="text" v-model="housePet" placeholder="Pet">
-        <input type="number" v-model="housePrice" placeholder="Price PLN">
-        <button>Add New Item</button>  
-      </form>
+    <div v-if="showModal" class="backdrop">
+      <div class="modal">
+        <button class="close-btn" @click="toogleModal">X</button> 
+        <h2 class="title">Create new position</h2>
+        <form @submit.prevent="addNewItem">
+          <div>
+            <input type="radio" id="ground" name="house_type" value="ground" v-model="houseType">
+            <label for="ground">Ground</label>
+            <input type="radio" id="above" name="house_type" value="above" v-model="houseType">
+            <label for="above">Above</label>
+          </div>
+          <input class="input" type="text" v-model="housePet" placeholder="Pet">
+          <input class="input" type="number" v-model="housePrice" placeholder="Price PLN">
+          <button>Add New Item</button>  
+        </form>
+      </div>
     </div>
+    <Logo/>
+    <button @click="toogleModal">Add New Item</button>
+ 
     <form class="filters" @submit.prevent="filterFoo">
       <input type="text" v-model="filterPet" placeholder="Find Pet">
       <select name="houseTypeSelect" id="houseTypeSelect" v-model="filterType">
         <option value="">Any</option>
-        <option value="ground">ground</option>
-        <option value="above">above</option>
+        <option value="ground">Ground</option>
+        <option value="above">Above</option>
       </select>
       <button>Search</button> 
     </form>
@@ -165,19 +175,67 @@ export default {
 
 
 <style>
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #FEC480;
+}
+
+.backdrop{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #07070781;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title{
+  width: 100%;
+  text-align: center;
+}
+
+.modal{
+  width: 300px;
+  height: 400px;
+  background-color: #ffffff;
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.input{
+  font-size: 20px;
+}
+
+.close-btn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #000000;
 }
 
 form{
-  margin: auto;
-  width: 500px;
-  padding: 20px;
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 table{
