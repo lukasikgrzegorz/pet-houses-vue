@@ -134,8 +134,6 @@ export default {
   </div>
 </template>
 
-
-
 <style>
 *{
   padding: 0;
