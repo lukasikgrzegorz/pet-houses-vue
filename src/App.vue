@@ -52,6 +52,7 @@ export default {
           price: false,
         }
         this.filterItems=[...this.items];
+        this.showModal=false;
       }else{
         alert("Fill all fields!")
       }
@@ -138,32 +139,30 @@ export default {
       </div>
     </div>
     <Logo/>
-    <button @click="toogleModal">Add New Item</button>
- 
+    <div class="btn-holder">
+      <button @click="toogleModal">Add New Item</button>
+      <button @click="resetSort">Reset Filters</button>
+    </div>
     <form class="filters" @submit.prevent="filterFoo">
-      <input type="text" v-model="filterPet" placeholder="Find Pet">
-      <select name="houseTypeSelect" id="houseTypeSelect" v-model="filterType">
+      <input class="input" type="text" v-model="filterPet" placeholder="Find Pet">
+      <select class="select" name="houseTypeSelect" id="houseTypeSelect" v-model="filterType">
         <option value="">Any</option>
         <option value="ground">Ground</option>
         <option value="above">Above</option>
       </select>
       <button>Search</button> 
     </form>
-    <button @click="resetSort">Reset Filters</button>
-    <div> 
-    </div>
-
     <table>
       <tr>
         <th @click="sortFoo" id="id">Id</th>
-        <th @click="sortFoo" id="type">Type</th>
         <th @click="sortFoo" id="pet">Pet</th>
+        <th @click="sortFoo" id="type">Type</th>
         <th @click="sortFoo" id="price">Price</th>
       </tr>
       <tr v-for="item in filterItems" :key="item.id">
         <td>{{item.id}}</td>
-        <td>{{item.type}}</td>
         <td>{{item.pet}}</td>
+        <td>{{item.type}}</td>
         <td>{{item.price}}</td>
       </tr>
     </table>
@@ -210,13 +209,24 @@ body{
   display: flex;
   flex-direction: column;
   gap: 15px;
-  outline: 4px dotted black;
-  outline-offset: -8px;
+  border-radius: 15px;
 }
 
-.input{
+.modal form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input,
+.select{
   font-size: 16px;
   margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  outline:none;
+  border: 2px solid black;
 }
 
 .close-btn{
@@ -224,12 +234,12 @@ body{
   top: 15px;
   right: 15px;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  background-color: #000000;
-  color: #ffffff;
-  transition: transform 350ms linear;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-btn:hover{
@@ -243,13 +253,6 @@ body{
   color: #000000;
   display: flex;
   flex-direction: column;
-}
-
-form{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 table{
@@ -268,16 +271,45 @@ th{
 }
 
 .filters{
-  background-color: yellow;
-  padding: 20px;
+  border: 4px dotted black;
+  padding: 10px;
   margin-top: 10px;
-  width: 500px;
+  margin: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filters .input,
+.filters .select{
   margin: auto;
 }
 
+.btn-holder{
+  display: flex;
+  gap: 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 button{
+  font: inherit;
   width: max-content;
   margin: auto;
+  font-size: 14px;
+  padding: 10px;
+  border-color: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #000000;
+  color: #ffffff;
+  transition: transform 350ms linear;
+}
+
+button:hover{
+  transform: scale(1.03);
 }
 
 </style>
