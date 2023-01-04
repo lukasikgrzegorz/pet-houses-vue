@@ -1,12 +1,13 @@
 <script>
 import Logo from "./components/Logo.vue"
+import Info from "./components/Info.vue"
 
 const KEY = "Items";
 let id=0;
 
 export default {
   name: 'App',
-  components: {Logo},
+  components: {Logo, Info},
   data(){
     return {
       showModal:false,
@@ -169,8 +170,7 @@ export default {
         <td>{{item.price}}</td>
       </tr>
     </table>
-    <div v-if="this.filterItems.length === 0" class="info">There are no items. Add a new one or change your query</div>
-  
+    <Info v-if="this.filterItems.length === 0" />
   </div>
 </template>
 
@@ -323,14 +323,6 @@ button{
 
 button:hover{
   transform: scale(1.03);
-}
-
-.info{
-  max-width: 300px;
-  font-weight: 700;
-  margin: auto;
-  text-align: center;
-  margin-top: 20px;
 }
 
 </style>
