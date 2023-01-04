@@ -1,7 +1,9 @@
 <script>
- export default{
+import Button from "./Button.vue";
+
+export default{
   name: "Modal",
-  emits: ['response'],
+  components: {Button},
   data(){
     return {
       houseType:"ground",
@@ -9,10 +11,10 @@
       housePrice:null,
     }
   },
- }   
+}   
 </script>
 
-<template>
+<template scoped>
     <div class="backdrop">
       <div class="modal">
         <button class="close-btn" @click="$emit('close')">X</button> 
@@ -26,14 +28,13 @@
           </div>
           <input class="input" type="text" v-model="housePet" placeholder="Pet" required>
           <input class="input" type="number" v-model="housePrice" placeholder="Price PLN" required>
-          <button>Add New Item</button>  
+          <Button :value="'Add New Item'"/>
         </form>
       </div>
     </div>
 </template>
 
 <style>
-
 .backdrop{
   position: absolute;
   width: 100vw;
@@ -70,8 +71,7 @@
   align-items: center;
 }
 
-.input,
-.select{
+.input{
   font-size: 16px;
   margin-bottom: 10px;
   padding: 5px;
@@ -91,10 +91,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 350ms linear;
 }
 
 .close-btn:hover{
   transform: scale(1.1);
 }
-
 </style>

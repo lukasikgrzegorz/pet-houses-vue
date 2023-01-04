@@ -8,7 +8,7 @@
   <div class="info">There are no items. Add a new one or change your query.</div>
 </template>
 
-<style>
+<style scoped> 
 .info{
   max-width: 300px;
   font-weight: 700;

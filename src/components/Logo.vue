@@ -10,7 +10,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .wrapper{
   max-width: 1280px;
   padding: 40px 15px;

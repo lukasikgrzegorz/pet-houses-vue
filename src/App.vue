@@ -1,5 +1,6 @@
 <script>
 import Logo from "./components/Logo.vue"
+import Button from "./components/Button.vue"
 import Modal from "./components/Modal.vue"
 import Info from "./components/Info.vue"
 
@@ -8,7 +9,7 @@ let id=0;
 
 export default {
   name: 'App',
-  components: {Logo, Modal, Info},
+  components: {Logo, Button, Modal, Info},
   data(){
     return {
       showModal:false,
@@ -36,28 +37,6 @@ export default {
   methods: {
     toogleModal(){
       this.showModal=!this.showModal;
-    },
-    addNewItem() {
-      if(this.houseType&&this.housePrice>0){
-        this.items.push({ id: id++, type: this.houseType, pet: this.housePet, price: this.housePrice });
-        this.houseType="ground";
-        this.housePet="";
-        this.housePrice=0;
-        this.filterPet="";
-        this.filterType="";
-        this.sortIsActive=false;
-        this.sortType={
-          id:false,
-          type:false,
-          pet: false,
-          price: false,
-        }
-        localStorage.setItem(KEY, JSON.stringify(this.items));
-        this.filterItems=[...this.items];
-        this.showModal=false;
-      }else{
-        alert("Fill all fields!")
-      }
     },
     filterFoo(){
       console.log(this.filterType)
@@ -109,6 +88,8 @@ export default {
     },
     resetSort(){
       this.sortIsActive=false;
+      this.filterPet="";
+      this.filterType="";
       this.sortType={
         id:false,
         type:false,
@@ -117,9 +98,12 @@ export default {
       },
       this.filterItems=[...this.items]
     },
-    handleRespone(response){
+    handleResponde(response){
       this.toogleModal();
-      console.log(response)
+      this.items.push({ id: id++, type: response.type, pet: response.pet, price: response.price });
+      localStorage.setItem(KEY, JSON.stringify(this.items));
+      this.filterItems=[...this.items];
+      this.resetSort();
     }
   }
 };
@@ -127,11 +111,11 @@ export default {
 
 <template>
   <div id="app">
-    <Modal v-if="showModal" @response="(data)=>handleRespone(data)" @close="toogleModal"/>
+    <Modal v-if="showModal" @response="(data)=>handleResponde(data)" @close="toogleModal"/>
     <Logo/>
     <div class="btn-holder">
-      <button @click="toogleModal">Add New Item</button>
-      <button @click="resetSort">Reset Filters</button>
+      <Button @action="toogleModal" :value="'Add New Item'" />
+      <Button @action="resetSort" :value="'Reset Filters'" />
     </div>
     <form class="filters" @submit.prevent="filterFoo">
       <input class="input" type="text" v-model="filterPet" placeholder="Find Pet">
@@ -140,7 +124,7 @@ export default {
         <option value="ground">Ground</option>
         <option value="above">Above</option>
       </select>
-      <button>Search</button> 
+      <Button :value="'Search'"/>
     </form>
     <table v-if="this.filterItems.length > 0">
       <tr>
@@ -163,7 +147,6 @@ export default {
 
 
 <style>
-
 *{
   padding: 0;
   margin: 0;
@@ -181,6 +164,16 @@ body{
   color: #000000;
   display: flex;
   flex-direction: column;
+}
+
+.input,
+.select{
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  outline:none;
+  border: 2px solid black;
 }
 
 table{
@@ -228,24 +221,6 @@ th{
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-button{
-  font: inherit;
-  width: max-content;
-  margin: auto;
-  font-size: 14px;
-  padding: 10px;
-  border-color: transparent;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #000000;
-  color: #ffffff;
-  transition: transform 350ms linear;
-}
-
-button:hover{
-  transform: scale(1.03);
 }
 
 </style>
