@@ -1,15 +1,14 @@
-<template>
-  <div class="wrapper">
-      <div class="logo">Pet🦊Houses</div>
-  </div>
-</template>
-
-
 <script>
 export default {
   name: 'Logo'
 }
 </script>
+
+<template>
+  <div class="wrapper">
+      <div class="logo">Pet🦊Houses</div>
+  </div>
+</template>
 
 <style>
 .wrapper{

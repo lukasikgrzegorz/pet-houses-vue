@@ -1,12 +1,12 @@
-<template>
-  <div class="info">There are no items. Add a new one or change your query.</div>
-</template>
-
 <script>
  export default{
   name: "Info"
  }   
 </script>
+
+<template>
+  <div class="info">There are no items. Add a new one or change your query.</div>
+</template>
 
 <style>
 .info{
