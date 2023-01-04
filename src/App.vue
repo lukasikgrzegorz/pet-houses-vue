@@ -6,7 +6,14 @@ import Filters from "./components/Filters.vue"
 import Info from "./components/Info.vue"
 
 const KEY = "Items";
+
 let id=0;
+
+const CURRENCY=[
+  {name:"ZŁ", value:1},
+  {name:"€", value:4},
+  {name:"$", value:5}
+]
 
 export default {
   name: 'App',
@@ -22,7 +29,10 @@ export default {
         price: false,
       },
       items: [],
-      filterItems:[]
+      filterItems:[],
+      currencyIndex: 0,
+      currency: "ZŁ",
+      exchangeRate: 1,
     }
   },
   mounted() {
@@ -102,6 +112,15 @@ export default {
       localStorage.setItem(KEY, JSON.stringify(this.items));
       this.filterItems=[...this.items];
       this.resetSort();
+    },
+    changeCurrency(){
+      if(this.currencyIndex===CURRENCY.length-1){
+        this.currencyIndex=0
+      }else{
+        this.currencyIndex++;
+      }
+      this.currency=CURRENCY[this.currencyIndex].name;
+      this.exchangeRate=CURRENCY[this.currencyIndex].value;
     }
   }
 };
@@ -114,6 +133,7 @@ export default {
     <div class="btn-holder">
       <Button @action="toogleModal" :value="'Add New Item'" />
       <Button @action="resetSort" :value="'Reset Filters'" />
+      <Button @action="changeCurrency" :value="'Change Currency'"/>
     </div>
     <Filters @response="(data)=>handleFilters(data)"/>
     <table v-if="this.filterItems.length > 0">
@@ -121,13 +141,13 @@ export default {
         <th @click="sortFoo" id="id">Id</th>
         <th @click="sortFoo" id="pet">Pet</th>
         <th @click="sortFoo" id="type">Type</th>
-        <th @click="sortFoo" id="price">Price</th>
+        <th @click="sortFoo" id="price">{{`Price (${this.currency})`}}</th>
       </tr>
       <tr v-for="item in filterItems" :key="item.id">
         <td>{{item.id}}</td>
         <td>{{item.pet}}</td>
         <td>{{item.type}}</td>
-        <td>{{item.price}}</td>
+        <td>{{`${item.price*exchangeRate} ${currency}`}}</td>
       </tr>
     </table>
     <Info v-if="this.filterItems.length === 0" />
