@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrapper">
       <div class="logo">Pet🦊Houses</div>
   </div>
 </template>
@@ -12,9 +12,13 @@ export default {
 </script>
 
 <style>
-.container{
+.wrapper{
   max-width: 1280px;
   padding: 40px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
 .logo{
   font-weight: 700;

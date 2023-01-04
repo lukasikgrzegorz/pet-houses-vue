@@ -150,8 +150,7 @@ export default {
       <button>Search</button> 
     </form>
     <button @click="resetSort">Reset Filters</button>
-    <div>
-      
+    <div> 
     </div>
 
     <table>
@@ -168,7 +167,7 @@ export default {
         <td>{{item.price}}</td>
       </tr>
     </table>
-   
+  
   </div>
 </template>
 
@@ -200,28 +199,41 @@ body{
 .title{
   width: 100%;
   text-align: center;
+  font-size: 18px;
 }
 
 .modal{
   width: 300px;
-  height: 400px;
   background-color: #ffffff;
   position: relative;
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  gap: 15px;
+  outline: 4px dotted black;
+  outline-offset: -8px;
 }
 
 .input{
-  font-size: 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .close-btn{
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-color: #000000;
+  color: #ffffff;
+  transition: transform 350ms linear;
+}
+
+.close-btn:hover{
+  transform: scale(1.1);
 }
 
 #app {
@@ -229,6 +241,8 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #000000;
+  display: flex;
+  flex-direction: column;
 }
 
 form{
@@ -258,6 +272,11 @@ th{
   padding: 20px;
   margin-top: 10px;
   width: 500px;
+  margin: auto;
+}
+
+button{
+  width: max-content;
   margin: auto;
 }
 
