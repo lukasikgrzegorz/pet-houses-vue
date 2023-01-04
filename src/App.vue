@@ -1,6 +1,7 @@
 <script>
 import Logo from "./components/Logo.vue"
 
+const KEY = "Items";
 let id=0;
 
 export default {
@@ -21,16 +22,17 @@ export default {
         pet: false,
         price: false,
       },
-      items: [
-        { id: id++, type:"ground", pet: "cat", price: 20 },
-        { id: id++, type:"ground", pet: "dog", price: 40 },
-        { id: id++, type:"above", pet: "bird", price: 30 },
-      ],
+      items: [],
       filterItems:[]
     }
   },
   mounted() {
-    this.filterItems=[...this.items]
+    const savedItems=JSON.parse(localStorage.getItem(KEY));
+    if(savedItems){
+      this.items=[...savedItems];
+      this.filterItems=[...this.items]
+      id=this.items.length;
+    }
   },
   methods: {
     toogleModal(){
@@ -51,6 +53,7 @@ export default {
           pet: false,
           price: false,
         }
+        localStorage.setItem(KEY, JSON.stringify(this.items));
         this.filterItems=[...this.items];
         this.showModal=false;
       }else{
@@ -152,7 +155,7 @@ export default {
       </select>
       <button>Search</button> 
     </form>
-    <table>
+    <table v-if="this.items">
       <tr>
         <th @click="sortFoo" id="id">Id</th>
         <th @click="sortFoo" id="pet">Pet</th>
@@ -259,6 +262,10 @@ table{
   margin: auto;
 }
 
+tr{
+  background-color: #FFCD93;
+}
+
 td{
   width: 100px;
   text-align: center;
@@ -268,6 +275,7 @@ th{
   background: brown;
   color: white;
   cursor: pointer;
+  padding: 5px;
 }
 
 .filters{
