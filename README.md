@@ -1,21 +1,35 @@
-# pet-houses-vue
+# 🦊 Pet Houses
 
-> A Vue.js project
+Project about serching tv series, showing current trends and adding
+to a client personal library.
 
-## Build Setup
+https://www.lukasik.dev/pet-houses-vue
 
-``` bash
-# install dependencies
-npm install
+## 🚀 Run Locally
 
-# serve with hot reload at localhost:8080
-npm run dev
+Clone the project
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+```bash
+  git clone https://github.com/lukasikgrzegorz/pet-houses-vue
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+
+
+## 📝 Tech Stack
+
+Vue, CSS
+
+
+## 👨‍🚀 Show your support
+Give a ⭐️ if this project helped you!
