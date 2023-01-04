@@ -2,6 +2,7 @@
 import Logo from "./components/Logo.vue"
 import Button from "./components/Button.vue"
 import Modal from "./components/Modal.vue"
+import Filters from "./components/Filters.vue"
 import Info from "./components/Info.vue"
 
 const KEY = "Items";
@@ -9,12 +10,10 @@ let id=0;
 
 export default {
   name: 'App',
-  components: {Logo, Button, Modal, Info},
+  components: {Logo, Button, Modal, Filters, Info},
   data(){
     return {
       showModal:false,
-      filterPet:"",
-      filterType:"",
       sortIsActive:false,
       sortType:{
         id:false,
@@ -38,12 +37,11 @@ export default {
     toogleModal(){
       this.showModal=!this.showModal;
     },
-    filterFoo(){
-      console.log(this.filterType)
-      const hitsByPet = this.items.filter((item) => item.pet.includes(this.filterPet));
+    handleFilters(response){
+      const hitsByPet = this.items.filter((item) => item.pet.includes(response.pet));
       let hitsByType = [];
-      if( this.filterType)
-        {hitsByType = hitsByPet .filter((item) => item.type===this.filterType);
+      if( response.type)
+        {hitsByType = hitsByPet .filter((item) => item.type===response.type);
       }else{
         hitsByType=[...hitsByPet];  
       }
@@ -98,7 +96,7 @@ export default {
       },
       this.filterItems=[...this.items]
     },
-    handleResponde(response){
+    handleNewItem(response){
       this.toogleModal();
       this.items.push({ id: id++, type: response.type, pet: response.pet, price: response.price });
       localStorage.setItem(KEY, JSON.stringify(this.items));
@@ -111,21 +109,13 @@ export default {
 
 <template>
   <div id="app">
-    <Modal v-if="showModal" @response="(data)=>handleResponde(data)" @close="toogleModal"/>
+    <Modal v-if="showModal" @response="(data)=>handleNewItem(data)" @close="toogleModal"/>
     <Logo/>
     <div class="btn-holder">
       <Button @action="toogleModal" :value="'Add New Item'" />
       <Button @action="resetSort" :value="'Reset Filters'" />
     </div>
-    <form class="filters" @submit.prevent="filterFoo">
-      <input class="input" type="text" v-model="filterPet" placeholder="Find Pet">
-      <select class="select" name="houseTypeSelect" id="houseTypeSelect" v-model="filterType">
-        <option value="">Any</option>
-        <option value="ground">Ground</option>
-        <option value="above">Above</option>
-      </select>
-      <Button :value="'Search'"/>
-    </form>
+    <Filters @response="(data)=>handleFilters(data)"/>
     <table v-if="this.filterItems.length > 0">
       <tr>
         <th @click="sortFoo" id="id">Id</th>
@@ -166,16 +156,6 @@ body{
   flex-direction: column;
 }
 
-.input,
-.select{
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 5px;
-  border-radius: 5px;
-  outline:none;
-  border: 2px solid black;
-}
-
 table{
   margin: auto;
 }
@@ -194,25 +174,6 @@ th{
   color: white;
   cursor: pointer;
   padding: 5px;
-}
-
-.filters{
-  border: 4px dotted black;
-  padding: 10px;
-  margin-top: 10px;
-  margin: auto;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  width:100%;
-  max-width: 500px;
-  flex-wrap: wrap;
-}
-
-.filters .input,
-.filters .select{
-  margin: auto;
 }
 
 .btn-holder{
